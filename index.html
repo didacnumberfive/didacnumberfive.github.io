@@ -1,12 +1,12 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0d1019">
-  <meta name="description" content="Juegos independientes para Android de Didac Villalba: Sudoku Zen, Quizora y DeepMine.">
-  <title>Mr Grasalba · Indie Games</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<meta content="#0d1019" name="theme-color"/>
+<meta content="Juegos independientes para Android de Mr Grasalba: Sudoku Zen, Quizora, DeepMine y Treasure Grid." name="description"/>
+<title>Mr Grasalba · Indie Games</title>
+<style>
     :root { color-scheme:dark; --bg:#0d1019; --panel:#171c2a; --panel2:#1c2333; --ink:#f3f2ed; --muted:#a7adbb; --gold:#e8c47b; --stroke:#303747; }
     * { box-sizing:border-box; }
     html { scroll-behavior:smooth; }
@@ -42,6 +42,12 @@
     .visual:after { content:""; position:absolute; inset:0; background:linear-gradient(0deg,#171c2a 0%,transparent 40%); }
     .sudoku { background:radial-gradient(circle at center,#425b83,#1b2b47 70%); }
     .quizora { background:radial-gradient(circle at center,#6351a6,#292548 70%); }
+    .treasure { background:radial-gradient(circle at center,#376f69,#193736 70%); }
+    .treasure .symbol { color:#ffe7a6; }
+    .game { position:relative; }
+    .card-play { position:absolute; inset:0; z-index:1; border-radius:17px; }
+    .game-links { position:relative; z-index:2; }
+    .game:hover .game-tag { color:#ffe1a8; }
     .deepmine { background:radial-gradient(circle at center,#736043,#322719 70%); }
     .symbol { position:relative; z-index:1; display:grid; place-items:center; width:106px; height:106px; border-radius:26px; box-shadow:0 20px 60px #0007; border:1px solid #ffffff35; font-size:53px; background:#ffffff17; }
     .sudoku .symbol { font-size:43px; font-weight:800; letter-spacing:-.07em; color:#eef6ff; }
@@ -54,6 +60,8 @@
     .game-links { margin-top:18px; padding-top:18px; border-top:1px solid var(--stroke); display:flex; flex-wrap:wrap; gap:10px 17px; }
     .game-links a { color:#e9d2a3; text-decoration:none; font-size:13px; font-weight:650; }
     .game-links a:hover { text-decoration:underline; }
+    .play-note { color:var(--muted); font-size:13px; }
+    .game:focus-within { border-color:var(--gold); }
     .about { border-top:1px solid var(--stroke); border-bottom:1px solid var(--stroke); padding:60px 0; background:#ffffff02; }
     .about-inner { display:grid; grid-template-columns:1fr 1.25fr; align-items:center; gap:65px; }
     .about p { color:var(--muted); max-width:580px; margin:0; }
@@ -68,26 +76,29 @@
   </style>
 </head>
 <body>
-  <header><div class="wrap nav">
-    <a class="brand" href="#top" aria-label="Inicio"><span class="brand-mark">✦</span><span>Mr Grasalba <span style="color:var(--gold)">/ Games</span></span></a>
-    <nav class="nav-right" aria-label="Principal"><a href="#games" data-i18n="navGames">Juegos</a><a href="#about" data-i18n="navAbout">Sobre mí</a><div class="switch" aria-label="Idioma"><button id="es" type="button" aria-pressed="true">ES</button><button id="en" type="button" aria-pressed="false">EN</button></div></nav>
-  </div></header>
-  <main id="top">
-    <section class="hero wrap"><span class="eyebrow" data-i18n="eyebrow">DESARROLLO INDEPENDIENTE · ANDROID</span><h1 data-i18n-html="heroTitle">Juegos sencillos.<br><span class="accent">Buenas partidas.</span></h1><p data-i18n="heroDesc">Diseño y desarrollo juegos para disfrutar a tu ritmo: lógica, conocimiento y pequeños desafíos para cada día.</p><a class="btn" href="#games" data-i18n="explore">Descubrir los juegos ↓</a></section>
-    <section id="games" class="games wrap" aria-labelledby="games-title"><div class="section-top"><div><span class="eyebrow" data-i18n="collection">MI COLECCIÓN</span><h2 id="games-title" data-i18n="gamesTitle">Juegos y proyectos</h2></div><span class="section-note" data-i18n="gamesHint">Una colección en crecimiento.</span></div>
-      <div class="grid">
-        <article class="game"><div class="visual sudoku"><div class="symbol" aria-hidden="true">1 9<br>4 6</div></div><div class="game-body"><span class="game-tag" data-i18n="logic">LÓGICA Y CONCENTRACIÓN</span><h3>Sudoku Zen</h3><p class="game-desc" data-i18n="sudokuDesc">Sudokus para todos los niveles, retos diarios y partidas para entrenar la mente.</p><div class="game-links"><a href="https://didacnumberfive.github.io/sudoku-privacy/" target="_blank" rel="noopener noreferrer" data-i18n="privacy">Privacidad ↗</a></div></div></article>
-        <article class="game"><div class="visual quizora"><div class="symbol" aria-hidden="true">?</div></div><div class="game-body"><span class="game-tag" data-i18n="trivia">PREGUNTAS Y CULTURA</span><h3>Quizora</h3><p class="game-desc" data-i18n="quizoraDesc">Pon a prueba tus conocimientos con preguntas de cultura general y distintas dificultades.</p><div class="game-links"><span style="color:var(--muted);font-size:13px" data-i18n="coming">Más información próximamente</span></div></div></article>
-        <article class="game"><div class="visual deepmine"><div class="symbol" aria-hidden="true">⚒</div></div><div class="game-body"><span class="game-tag" data-i18n="puzzle">CLÁSICO DE ESTRATEGIA</span><h3>DeepMine</h3><p class="game-desc" data-i18n="mineDesc">Una reinterpretación del clásico buscaminas: descubre casillas, evita minas y supera desafíos.</p><div class="game-links"><a href="https://didacnumberfive.github.io/buscaminas-privacy/" target="_blank" rel="noopener noreferrer" data-i18n="privacy">Privacidad ↗</a></div></div></article>
-      </div>
-    </section>
-    <section id="about" class="about"><div class="wrap about-inner"><div><span class="eyebrow" data-i18n="who">DETRÁS DE LOS JUEGOS</span><h2 data-i18n="aboutTitle">Un desarrollador.<br>Muchas ideas.</h2></div><div><p data-i18n="aboutDesc">Soy Didac Villalba, desarrollador independiente. Creo juegos móviles accesibles, con una presentación cuidada y mecánicas fáciles de aprender. Este es el espacio donde reuniré mis proyectos y sus enlaces oficiales.</p><a class="contact" href="mailto:didacnumberfive@gmail.com">didacnumberfive@gmail.com ↗</a></div></div></section>
-  </main>
-  <footer><div class="wrap footer-inner"><span>© <span id="year"></span> Mr Grasalba · Indie Games</span><span data-i18n="footer">Hecho con dedicación · Web estática sin cookies ni analítica</span></div></footer>
-  <script>
+<header><div class="wrap nav">
+<a aria-label="Inicio" class="brand" href="#top"><span class="brand-mark">✦</span><span>Mr Grasalba <span style="color:var(--gold)">/ Games</span></span></a>
+<nav aria-label="Principal" class="nav-right"><a data-i18n="navGames" href="#games">Juegos</a><a data-i18n="navAbout" href="#about">Sobre mí</a><div aria-label="Idioma" class="switch"><button aria-pressed="true" id="es" type="button">ES</button><button aria-pressed="false" id="en" type="button">EN</button></div></nav>
+</div></header>
+<main id="top">
+<section class="hero wrap"><span class="eyebrow" data-i18n="eyebrow">DESARROLLO INDEPENDIENTE · ANDROID</span><h1 data-i18n-html="heroTitle">Juegos sencillos.<br/><span class="accent">Buenas partidas.</span></h1><p data-i18n="heroDesc">Diseño y desarrollo juegos para disfrutar a tu ritmo: lógica, conocimiento y pequeños desafíos para cada día.</p><a class="btn" data-i18n="explore" href="#games">Descubrir los juegos ↓</a></section>
+<section aria-labelledby="games-title" class="games wrap" id="games"><div class="section-top"><div><span class="eyebrow" data-i18n="collection">MI COLECCIÓN</span><h2 data-i18n="gamesTitle" id="games-title">Juegos y proyectos</h2></div><span class="section-note" data-i18n="gamesHint">Una colección en crecimiento.</span></div>
+<div class="grid">
+<article class="game"><a aria-label="Google Play: Sudoku Zen" class="card-play" href="https://play.google.com/store/search?q=Sudoku%20Zen%20MrGrasalba&amp;c=apps" rel="noopener noreferrer" target="_blank"></a><div class="visual sudoku"><div aria-hidden="true" class="symbol">1 9<br/>4 6</div></div><div class="game-body"><span class="game-tag" data-i18n="logic">LÓGICA Y CONCENTRACIÓN</span><h3>Sudoku Zen</h3><p class="game-desc" data-i18n="sudokuDesc">Sudokus para todos los niveles, retos diarios y partidas para entrenar la mente.</p><div class="game-links"><span class="play-note" data-i18n="playSearch">Buscar en Google Play</span> · <a data-i18n="privacy" href="https://didacnumberfive.github.io/sudoku-privacy/" rel="noopener noreferrer" target="_blank">Privacidad ↗</a></div></div></article>
+<article class="game"><a aria-label="Google Play: Quizora" class="card-play" href="https://play.google.com/store/search?q=Quizora%20MrGrasalba&amp;c=apps" rel="noopener noreferrer" target="_blank"></a><div class="visual quizora"><div aria-hidden="true" class="symbol">?</div></div><div class="game-body"><span class="game-tag" data-i18n="trivia">PREGUNTAS Y CULTURA</span><h3>Quizora</h3><p class="game-desc" data-i18n="quizoraDesc">Pon a prueba tus conocimientos con preguntas de cultura general y distintas dificultades.</p><div class="game-links"><span class="play-note" data-i18n="playSearch">Buscar en Google Play</span> · </div></div></article>
+<article class="game"><a aria-label="Google Play: DeepMine" class="card-play" href="https://play.google.com/store/apps/details?id=com.didacnumberfive.buscaminas" rel="noopener noreferrer" target="_blank"></a><div class="visual deepmine"><div aria-hidden="true" class="symbol">⚒</div></div><div class="game-body"><span class="game-tag" data-i18n="puzzle">CLÁSICO DE ESTRATEGIA</span><h3>DeepMine</h3><p class="game-desc" data-i18n="mineDesc">Una reinterpretación del clásico buscaminas: descubre casillas, evita minas y supera desafíos.</p><div class="game-links"><span class="play-note" data-i18n="playVisit">Ver en Google Play</span> · <a data-i18n="privacy" href="https://didacnumberfive.github.io/buscaminas-privacy/" rel="noopener noreferrer" target="_blank">Privacidad ↗</a></div></div></article>
+<article class="game"><a aria-label="Google Play: Treasure Grid" class="card-play" href="https://play.google.com/store/search?q=Treasure%20Grid%20MrGrasalba&amp;c=apps" rel="noopener noreferrer" target="_blank"></a><div class="visual treasure"><div aria-hidden="true" class="symbol">💎</div></div><div class="game-body"><span class="game-tag" data-i18n="treasureTag">EXPLORACIÓN Y ESTRATEGIA</span><h3>Treasure Grid</h3><p class="game-desc" data-i18n="treasureDesc">Explora casillas, descubre reliquias, mejora tus habilidades y completa desafíos diarios y semanales.</p><div class="game-links"><span class="play-note" data-i18n="playSearch">Buscar en Google Play</span></div></div></article></div>
+</section>
+<section class="about" id="about"><div class="wrap about-inner"><div><span class="eyebrow" data-i18n="who">DETRÁS DE LOS JUEGOS</span><h2 data-i18n="aboutTitle">Un desarrollador.<br/>Muchas ideas.</h2></div><div><p data-i18n="aboutDesc">Soy Didac Villalba, desarrollador independiente. Creo juegos móviles accesibles, con una presentación cuidada y mecánicas fáciles de aprender. Este es el espacio donde reuniré mis proyectos y sus enlaces oficiales.</p><a class="contact" href="mailto:didacnumberfive@gmail.com">didacnumberfive@gmail.com ↗</a></div></div></section>
+</main>
+<footer><div class="wrap footer-inner"><span>© <span id="year"></span> Mr Grasalba · Indie Games</span><span data-i18n="footer">Hecho con dedicación · Web estática sin cookies ni analítica</span></div></footer>
+<script>
+    // GOOGLE PLAY: cuando tengas los enlaces definitivos, cambia el href de cada .card-play.
+    // Las búsquedas provisionales NO son enlaces directos a la ficha del juego.
+
     const translations = {
-      es:{navGames:'Juegos',navAbout:'Sobre mí',eyebrow:'DESARROLLO INDEPENDIENTE · ANDROID',heroTitle:'Juegos sencillos.<br><span class="accent">Buenas partidas.</span>',heroDesc:'Diseño y desarrollo juegos para disfrutar a tu ritmo: lógica, conocimiento y pequeños desafíos para cada día.',explore:'Descubrir los juegos ↓',collection:'MI COLECCIÓN',gamesTitle:'Juegos y proyectos',gamesHint:'Una colección en crecimiento.',logic:'LÓGICA Y CONCENTRACIÓN',trivia:'PREGUNTAS Y CULTURA',puzzle:'CLÁSICO DE ESTRATEGIA',sudokuDesc:'Sudokus para todos los niveles, retos diarios y partidas para entrenar la mente.',quizoraDesc:'Pon a prueba tus conocimientos con preguntas de cultura general y distintas dificultades.',mineDesc:'Una reinterpretación del clásico buscaminas: descubre casillas, evita minas y supera desafíos.',privacy:'Privacidad ↗',coming:'Más información próximamente',who:'DETRÁS DE LOS JUEGOS',aboutTitle:'Un desarrollador. Muchas ideas.',aboutDesc:'Soy Didac Villalba, desarrollador independiente. Creo juegos móviles accesibles, con una presentación cuidada y mecánicas fáciles de aprender. Este es el espacio donde reuniré mis proyectos y sus enlaces oficiales.',footer:'Hecho con dedicación · Web estática sin cookies ni analítica'},
-      en:{navGames:'Games',navAbout:'About',eyebrow:'INDEPENDENT DEVELOPMENT · ANDROID',heroTitle:'Simple games.<br><span class="accent">Great moments.</span>',heroDesc:'I design and develop games to enjoy at your own pace: logic, knowledge and small daily challenges.',explore:'Explore the games ↓',collection:'MY COLLECTION',gamesTitle:'Games and projects',gamesHint:'A growing collection.',logic:'LOGIC & FOCUS',trivia:'TRIVIA & KNOWLEDGE',puzzle:'CLASSIC STRATEGY',sudokuDesc:'Sudoku for every skill level, daily challenges and puzzles to keep your mind sharp.',quizoraDesc:'Test your knowledge with general trivia questions and multiple difficulty levels.',mineDesc:'A fresh take on classic Minesweeper: uncover tiles, avoid mines and beat new challenges.',privacy:'Privacy ↗',coming:'More information coming soon',who:'BEHIND THE GAMES',aboutTitle:'One developer. Many ideas.',aboutDesc:'I’m Didac Villalba, an independent developer. I create accessible mobile games with thoughtful design and easy-to-learn mechanics. This is where you’ll find my projects and their official links.',footer:'Made with care · Static website without cookies or analytics'}
+      es:{navGames:'Juegos',navAbout:'Sobre mí',eyebrow:'DESARROLLO INDEPENDIENTE · ANDROID',heroTitle:'Juegos sencillos.<br><span class="accent">Buenas partidas.</span>',heroDesc:'Diseño y desarrollo juegos para disfrutar a tu ritmo: lógica, conocimiento y pequeños desafíos para cada día.',explore:'Descubrir los juegos ↓',collection:'MI COLECCIÓN',gamesTitle:'Juegos y proyectos',gamesHint:'Una colección en crecimiento.',logic:'LÓGICA Y CONCENTRACIÓN',trivia:'PREGUNTAS Y CULTURA',puzzle:'CLÁSICO DE ESTRATEGIA',sudokuDesc:'Sudokus para todos los niveles, retos diarios y partidas para entrenar la mente.',quizoraDesc:'Pon a prueba tus conocimientos con preguntas de cultura general y distintas dificultades.',mineDesc:'Una reinterpretación del clásico buscaminas: descubre casillas, evita minas y supera desafíos.',treasureTag:'EXPLORACIÓN Y ESTRATEGIA',treasureDesc:'Explora casillas, descubre reliquias, mejora tus habilidades y completa desafíos diarios y semanales.',playSearch:'Buscar en Google Play',playVisit:'Ver en Google Play',privacy:'Privacidad ↗',coming:'Más información próximamente',who:'DETRÁS DE LOS JUEGOS',aboutTitle:'Un desarrollador. Muchas ideas.',aboutDesc:'Soy Didac Villalba, desarrollador independiente. Creo juegos móviles accesibles, con una presentación cuidada y mecánicas fáciles de aprender. Este es el espacio donde reuniré mis proyectos y sus enlaces oficiales.',footer:'Hecho con dedicación · Web estática sin cookies ni analítica'},
+      en:{navGames:'Games',navAbout:'About',eyebrow:'INDEPENDENT DEVELOPMENT · ANDROID',heroTitle:'Simple games.<br><span class="accent">Great moments.</span>',heroDesc:'I design and develop games to enjoy at your own pace: logic, knowledge and small daily challenges.',explore:'Explore the games ↓',collection:'MY COLLECTION',gamesTitle:'Games and projects',gamesHint:'A growing collection.',logic:'LOGIC & FOCUS',trivia:'TRIVIA & KNOWLEDGE',puzzle:'CLASSIC STRATEGY',sudokuDesc:'Sudoku for every skill level, daily challenges and puzzles to keep your mind sharp.',quizoraDesc:'Test your knowledge with general trivia questions and multiple difficulty levels.',mineDesc:'A fresh take on classic Minesweeper: uncover tiles, avoid mines and beat new challenges.',treasureTag:'EXPLORATION & STRATEGY',treasureDesc:'Explore tiles, discover relics, upgrade abilities and complete daily and weekly challenges.',playSearch:'Search on Google Play',playVisit:'View on Google Play',privacy:'Privacy ↗',coming:'More information coming soon',who:'BEHIND THE GAMES',aboutTitle:'One developer. Many ideas.',aboutDesc:'I’m Didac Villalba, an independent developer. I create accessible mobile games with thoughtful design and easy-to-learn mechanics. This is where you’ll find my projects and their official links.',footer:'Made with care · Static website without cookies or analytics'}
     };
     function setLanguage(lang) {
       const t=translations[lang]; document.documentElement.lang=lang;
